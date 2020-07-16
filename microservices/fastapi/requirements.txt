@@ -1,0 +1,7 @@
+nameko
+nameko-redis
+starlette
+uvicorn
+fastapi
+pydantic
+python-multipart

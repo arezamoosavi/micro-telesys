@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rmq
+spec:
+  selector:
+    matchLabels:
+      app: rmq
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: rmq
+    spec:
+      containers:
+        - name: rmq
+          image: rabbitmq:3.8.3-management
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 5672
+              name: rmq-port
+          resources: {}
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+spec:
+  selector:
+    matchLabels:
+      app: redis
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:5.0.5
+          imagePullPolicy: "IfNotPresent"
+          ports:
+            - containerPort: 6379
+              name: redis-port
+          resources: {}

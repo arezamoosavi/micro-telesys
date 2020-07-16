@@ -1,0 +1,19 @@
+AMQP_URI: amqp://${RABBIT_USER}:${RABBIT_PASSWORD}@${RABBIT_HOST}:${RABBIT_PORT}/
+REDIS_URIS:
+  testing: redis://${REDIS_HOST}:${REDIS_PORT}/1
+
+LOGGING:
+  version: 1
+  disable_existing_loggers: False
+  formatters:
+    default:
+      format: "%(asctime)-15s [%(levelname)-4s] [SERVICE] [%(name)-12s] %(message)s"
+  handlers:
+    default:
+      level: INFO
+      formatter: default
+      class: logging.StreamHandler
+  root:
+    level: INFO
+    propagate: True
+    handlers: [default]

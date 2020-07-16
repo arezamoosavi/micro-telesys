@@ -1,0 +1,46 @@
+version: "2"
+services:
+  rabbit:
+    image: rabbitmq:3.8.3-management
+    ports:
+      - "15672:15672"
+    hostname: rabbitmq
+    restart: on-failure
+
+  redis:
+    image: redis:5.0.5
+    ports:
+      - "6379:6379"
+    expose:
+      - "6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    hostname: redis
+    restart: on-failure
+    volumes:
+      - redis-data:/data
+
+  fastapi:
+    build:
+      context: microservices/fastapi
+    depends_on:
+      - rabbit
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./microservices/fastapi/.env
+
+  service:
+    build:
+      context: microservices/service
+    depends_on:
+      - rabbit
+    environment:
+      REDIS_HOST: "redis"
+      REDIS_PORT: "6379"
+      RABBIT_PASSWORD: "guest"
+      RABBIT_USER: "guest"
+      RABBIT_HOST: "rabbit"
+      RABBIT_PORT: "5672"
+
+volumes:
+  redis-data: {}

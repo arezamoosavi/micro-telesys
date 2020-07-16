@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: nameko-service
+  name: nameko-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nameko-service
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: nameko-service
+    spec:
+      containers:
+        - image: 10.10.0.1:5000/nameko-service:v1
+          name: nameko-service
+          imagePullPolicy: "IfNotPresent"
+          env:
+            - name: REDIS_HOST
+              value: redis-svc.default.svc.cluster.local
+            - name: REDIS_PORT
+              value: "6379"
+            - name: RABBIT_HOST
+              value: rmq-svc.default.svc.cluster.local
+            - name: RABBIT_USER
+              value: guest
+            - name: RABBIT_PASSWORD
+              value: guest
+            - name: RABBIT_PORT
+              value: "5672"
+          resources: {}
+status: {}

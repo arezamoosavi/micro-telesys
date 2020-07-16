@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rmq-svc
+  labels:
+    app: rmq
+
+spec:
+  selector:
+    app: rmq
+
+  ports:
+    - name: http
+      port: 15672
+      nodePort: 30072
+
+    - name: endpoint
+      port: 5672
+  type: NodePort
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-svc
+  labels:
+    app: redis
+
+spec:
+  ports:
+    - port: 6379
+      name: redis-port
+  clusterIP: None
+  selector:
+    app: redis
