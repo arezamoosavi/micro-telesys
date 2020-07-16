@@ -1,0 +1,5 @@
+nameko
+nameko-redis
+Flask
+Flask-RESTful
+gunicorn

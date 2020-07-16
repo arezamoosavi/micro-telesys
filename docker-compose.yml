@@ -29,6 +29,16 @@ services:
     env_file:
       - ./microservices/fastapi/.env
 
+  flask:
+    build:
+      context: microservices/flask
+    depends_on:
+      - rabbit
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./microservices/flask/.env
+
   service:
     build:
       context: microservices/service
